@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const Leftside = (props) => {
   return (
@@ -8,13 +9,47 @@ const Leftside = (props) => {
           <CardBackground />
           <a>
             <Photo />
-            <Link>Welcome there!</Link>
+            <Link>
+              Welcome {props.user ? props.user.displayName : 'there'}!
+            </Link>
           </a>
           <a>
             <AddPhotoText>Add a photo</AddPhotoText>
           </a>
         </UserInfo>
+        <Widget>
+          <a>
+            <div>
+              <span>Connections</span>
+              <span>Grow your network</span>
+            </div>
+            <img src='/images/widget-icon.svg' />
+          </a>
+        </Widget>
+        <Item>
+          <span>
+            <img src='/images/item-icon.svg' />
+            My items
+          </span>
+        </Item>
       </Artcard>
+      <CommunityCard>
+        <a>
+          <span>Groups</span>
+        </a>
+        <a>
+          <span>
+            Events
+            <img src='/images/plus-icon.svg' />
+          </span>
+        </a>
+        <a>
+          <span>Follow hashtags</span>
+        </a>
+        <a>
+          <span>Discover More</span>
+        </a>
+      </CommunityCard>
     </Container>
   );
 };
@@ -68,6 +103,116 @@ const Link = styled.div`
   color: rgba(0, 0, 0, 0.9);
   font-weight: 600;
 `;
-const AddPhotoText = styled.div``;
+const AddPhotoText = styled.div`
+  color: #0a66c2;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.33;
+  font-weight: 400;
+`;
 
-export default Leftside;
+const Widget = styled.div`
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  transition: all 150ms ease-in-out;
+
+  & > a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 12px;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+
+    span {
+      font-size: 13px;
+      line-height: 1.333;
+      &:first-child {
+        color: rgba(0, 0, 0, 0.6);
+      }
+
+      &:nth-child(2) {
+        color: rgb(0, 0, 0);
+        font-weight: 600;
+      }
+    }
+  }
+`;
+const Item = styled.a`
+  border-color: rgba(0, 0, 0, 0.8);
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  transition: all 150ms ease-in-out;
+
+  span {
+    display: flex;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    svg {
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+`;
+
+const CommunityCard = styled(Artcard)`
+  padding: 8px 0 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+
+  a {
+    color: black;
+    font-size: 14px;
+    padding: 6px 12px 6px 12px;
+    transition: all 150ms ease-in-out;
+
+    &:hover {
+      color: #0a66c2;
+      cursor: pointer;
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &:last-child {
+      color: rgba(0, 0, 0, 0.6);
+      text-decoration: none;
+      border-top: 1px solid #d6cec2;
+      padding: 12px;
+      transition: all 150ms ease-out;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+      }
+    }
+  }
+`;
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userState.user,
+  };
+};
+
+export default connect(mapStateToProps)(Leftside);
